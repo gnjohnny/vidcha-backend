@@ -126,7 +126,7 @@ export const LogIn = async (req, res) => {
             user,
         });
     } catch (error) {
-        console.log("Error in log in controller", error.message);
+        console.log("Error in log in controller", error);
         return res.status(500).json({
             success: false,
             msg: "Internal server error",
@@ -188,17 +188,16 @@ export const Onboard = async (req, res) => {
                 success: false,
                 msg: "User not found",
             });
-       try {
-         
-        await upsertStreamUser({
-            id: updatedUser._id.toString(),
-            name: updatedUser.fullName,
-            image: updatedUser.profilePic || "",
-        });
-           console.log(`Stream user updated for ${updatedUser.fullName}`);
-       } catch (error) {
-        console.log("Error updating stream user", error.message);
-       }
+        try {
+            await upsertStreamUser({
+                id: updatedUser._id.toString(),
+                name: updatedUser.fullName,
+                image: updatedUser.profilePic || "",
+            });
+            console.log(`Stream user updated for ${updatedUser.fullName}`);
+        } catch (error) {
+            console.log("Error updating stream user", error.message);
+        }
         return res.status(200).json({
             success: true,
             updatedUser,
